@@ -85,7 +85,7 @@ public class HelloWorld extends PApplet
 		// TODO: Add code so that both maps are displayed
 		map1.draw();
 		
-		// map2 I think
+		// map2.draw() I think
 	}
 
 	
