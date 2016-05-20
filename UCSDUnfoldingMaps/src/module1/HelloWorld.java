@@ -76,8 +76,9 @@ public class HelloWorld extends PApplet
 		
 		// TODO: Add code here that creates map2 
 		// Then you'll modify draw() below 
-		map2 = new UnfoldingMap(this, 450, 50, 350, 500, provider);
-
+		map2 = new UnfoldingMap(this, 425, 50, 350, 500, provider);
+		map2.zoomAndPanTo(zoomLevel, new Location(59.950564f, 30.31953f));
+		MapUtils.createDefaultEventDispatcher(this, map2);
 	}
 
 	/** Draw the Applet window.  */
