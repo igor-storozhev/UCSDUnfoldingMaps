@@ -75,7 +75,7 @@ public class HelloWorld extends PApplet
 		MapUtils.createDefaultEventDispatcher(this, map1);
 		
 		// TODO: Add code here that creates map2 
-		// Then you'll modify draw() below
+		// Then you'll modify draw() below 
 
 	}
 
