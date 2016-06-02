@@ -3,6 +3,7 @@ package module4;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import processing.core.PGraphics;
 
+
 /** Implements a visual marker for land earthquakes on an earthquake map
  * 
  * @author UC San Diego Intermediate Software Development MOOC team
@@ -33,6 +34,9 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
+		float radius = this.getRadius();
+		radius = processing.core.PApplet.map(radius, 1, 12, 1, 20);
+		pg.ellipse(x, y, radius, radius);
 		
 	}
 	
