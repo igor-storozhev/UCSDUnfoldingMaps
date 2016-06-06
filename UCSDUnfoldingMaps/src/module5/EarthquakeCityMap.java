@@ -150,7 +150,8 @@ public class EarthquakeCityMap extends PApplet {
 				if(this.lastSelected == null) { // select only one marker
 					marker.setSelected(true);   
 					this.lastSelected = (CommonMarker) marker; // save last selected marker
-					System.out.println("marker selected");
+					//System.out.println("marker selected");
+					return;
 				}
 			};
 		}
@@ -167,6 +168,38 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		if(this.lastClicked == null) { 	// no one marker is selected
+			
+			if(selectMarkerIfClicked(cityMarkers) == true) { // find first in cities list
+				// hide all cities and earthquake markers behind radius
+				
+			} else if(selectMarkerIfClicked(quakeMarkers)) { // if city not found search in earthquakes list
+				// hide all earthquake markers and cities behind radius
+				
+			}
+			
+		} else {
+			// marker was selected, release hidden markers
+			this.unhideMarkers();
+			this.lastClicked.setClicked(false);
+			this.lastClicked = null;
+		}
+	}
+	
+	// locate clicked marker in list. return true if marker found, else false
+	private boolean selectMarkerIfClicked(List<Marker> markers) 
+	{
+		for(Marker marker: markers) { // locate first marker on the map
+			if(marker.isInside(this.map, this.mouseX, this.mouseY)) {
+				if(this.lastClicked == null) { // select only one marker
+					((CommonMarker) marker).setClicked(true);   
+					this.lastSelected = (CommonMarker) marker; // save last clicked marker
+					System.out.println("marker clicked");
+					return true;
+				}
+			}
+		}	
+		return false;
 	}
 	
 	
@@ -196,7 +229,7 @@ public class EarthquakeCityMap extends PApplet {
 		textSize(12);
 		text("Earthquake Key", xbase+25, ybase+25);
 		
-		fill(150, 30, 30);
+		fill(150, 30, 30, 8);
 		int tri_xbase = xbase + 35;
 		int tri_ybase = ybase + 50;
 		triangle(tri_xbase, tri_ybase-CityMarker.TRI_SIZE, tri_xbase-CityMarker.TRI_SIZE, 
