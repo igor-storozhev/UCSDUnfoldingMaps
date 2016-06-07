@@ -170,16 +170,39 @@ public class EarthquakeCityMap extends PApplet {
 		// from getting too long/disorganized
 		if(this.lastClicked == null) { 	// no one marker is selected
 			
-			if(selectMarkerIfClicked(cityMarkers) == true) { // find first in cities list
-				// hide all cities and earthquake markers behind radius
-				
-			} else if(selectMarkerIfClicked(quakeMarkers)) { // if city not found search in earthquakes list
-				// hide all earthquake markers and cities behind radius
-				
+			if(selectMarkerIfClicked(quakeMarkers) == true) { // find first in quake list
+				// get quake treated radius
+				double thrRadius = ((EarthquakeMarker) this.lastClicked).threatCircle();
+				System.out.println("thrRadius=" + thrRadius);
+				// hide all cities markers behind radius
+				for(Marker city: cityMarkers) {
+					if(this.lastClicked.getDistanceTo(city.getLocation()) > thrRadius) {
+						city.setHidden(true);
+					}
+				}
+				// hide other earthquake
+				for(Marker quake: quakeMarkers) {
+					if(((CommonMarker) quake).getClicked() == false) {
+						quake.setHidden(true);
+					}
+				}				
+			} else if(selectMarkerIfClicked(cityMarkers) == true) { // if quake not found search in earthquakes list
+				// hide all cities
+				for(Marker city: cityMarkers) {
+					if(((CommonMarker) city).getClicked() == false){
+						city.setHidden(true);
+					}
+				}
+				// hide quakes behind threat radius
+				for(Marker quake: quakeMarkers) {
+					if(this.lastClicked.getDistanceTo(quake.getLocation()) > ((EarthquakeMarker) quake).threatCircle()) {
+						quake.setHidden(true);
+					}
+				}
 			}
 			
 		} else {
-			// marker was selected, release hidden markers
+			// marker was selected before, release hidden markers
 			this.unhideMarkers();
 			this.lastClicked.setClicked(false);
 			this.lastClicked = null;
@@ -193,7 +216,7 @@ public class EarthquakeCityMap extends PApplet {
 			if(marker.isInside(this.map, this.mouseX, this.mouseY)) {
 				if(this.lastClicked == null) { // select only one marker
 					((CommonMarker) marker).setClicked(true);   
-					this.lastSelected = (CommonMarker) marker; // save last clicked marker
+					this.lastClicked = (CommonMarker) marker; // save last clicked marker
 					System.out.println("marker clicked");
 					return true;
 				}
