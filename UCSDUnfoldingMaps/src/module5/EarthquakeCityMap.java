@@ -150,7 +150,8 @@ public class EarthquakeCityMap extends PApplet {
 				if(this.lastSelected == null) { // select only one marker
 					marker.setSelected(true);   
 					this.lastSelected = (CommonMarker) marker; // save last selected marker
-					System.out.println("marker selected");
+					//System.out.println("marker selected");
+					return;
 				}
 			};
 		}
@@ -167,6 +168,61 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		if(this.lastClicked == null) { 	// no one marker is selected
+			
+			if(selectMarkerIfClicked(quakeMarkers) == true) { // find first in quake list
+				// get quake treated radius
+				double thrRadius = ((EarthquakeMarker) this.lastClicked).threatCircle();
+				System.out.println("thrRadius=" + thrRadius);
+				// hide all cities markers behind radius
+				for(Marker city: cityMarkers) {
+					if(this.lastClicked.getDistanceTo(city.getLocation()) > thrRadius) {
+						city.setHidden(true);
+					}
+				}
+				// hide other earthquake
+				for(Marker quake: quakeMarkers) {
+					if(((CommonMarker) quake).getClicked() == false) {
+						quake.setHidden(true);
+					}
+				}				
+			} else if(selectMarkerIfClicked(cityMarkers) == true) { // if quake not found search in earthquakes list
+				// hide all cities
+				for(Marker city: cityMarkers) {
+					if(((CommonMarker) city).getClicked() == false){
+						city.setHidden(true);
+					}
+				}
+				// hide quakes behind threat radius
+				for(Marker quake: quakeMarkers) {
+					if(this.lastClicked.getDistanceTo(quake.getLocation()) > ((EarthquakeMarker) quake).threatCircle()) {
+						quake.setHidden(true);
+					}
+				}
+			}
+			
+		} else {
+			// marker was selected before, release hidden markers
+			this.unhideMarkers();
+			this.lastClicked.setClicked(false);
+			this.lastClicked = null;
+		}
+	}
+	
+	// locate clicked marker in list. return true if marker found, else false
+	private boolean selectMarkerIfClicked(List<Marker> markers) 
+	{
+		for(Marker marker: markers) { // locate first marker on the map
+			if(marker.isInside(this.map, this.mouseX, this.mouseY)) {
+				if(this.lastClicked == null) { // select only one marker
+					((CommonMarker) marker).setClicked(true);   
+					this.lastClicked = (CommonMarker) marker; // save last clicked marker
+					System.out.println("marker clicked");
+					return true;
+				}
+			}
+		}	
+		return false;
 	}
 	
 	
@@ -196,7 +252,7 @@ public class EarthquakeCityMap extends PApplet {
 		textSize(12);
 		text("Earthquake Key", xbase+25, ybase+25);
 		
-		fill(150, 30, 30);
+		fill(150, 30, 30, 8);
 		int tri_xbase = xbase + 35;
 		int tri_ybase = ybase + 50;
 		triangle(tri_xbase, tri_ybase-CityMarker.TRI_SIZE, tri_xbase-CityMarker.TRI_SIZE, 
