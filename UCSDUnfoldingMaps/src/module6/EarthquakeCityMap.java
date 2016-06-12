@@ -86,7 +86,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -118,6 +118,9 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
+	    
+	    // print top 10 sorted quakes
+	    sortAndPrint(100);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -141,8 +144,22 @@ public class EarthquakeCityMap extends PApplet {
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
 	private void sortAndPrint(int numToPrint) {
-		// sort objects
-		Collections.sort(quakeMarkers);
+		// Create array of earthquake from list
+		EarthquakeMarker[] arrEarthquake = quakeMarkers.toArray(new EarthquakeMarker[quakeMarkers.size()]);
+		// Back to list with required type for sort
+		List<EarthquakeMarker> listEarthquake = Arrays.asList(arrEarthquake);
+		// sort at last
+		Collections.sort(listEarthquake);
+		// print top numToPrint
+		Integer printed = 0;
+		for(EarthquakeMarker quake : listEarthquake) {
+			if(printed == numToPrint) {
+				break; // stop printing
+			} else {
+				printed ++;
+			}
+			System.out.println(quake);
+		}
 	}
 	
 	/** Event handler that gets called automatically when the 
