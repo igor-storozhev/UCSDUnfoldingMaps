@@ -241,7 +241,7 @@ public class EarthquakeCityMap extends PApplet {
 							> quakeMarker.threatCircle()) {
 						quakeMarker.setHidden(true);
 					} else {
-						desc = desc + quakeMarker.getTitle();
+						desc = desc + quakeMarker.getTitle() + "\n";
 					}
 				}
 				// fill data about city
