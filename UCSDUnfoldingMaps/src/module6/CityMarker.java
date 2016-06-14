@@ -55,18 +55,28 @@ public class CityMarker extends CommonMarker {
 	{
 		String name = getCity() + " " + getCountry() + " ";
 		String pop = "Pop: " + getPopulation() + " Million";
+
 		
 		pg.pushStyle();
 		
 		pg.fill(255, 255, 255);
 		pg.textSize(12);
 		pg.rectMode(PConstants.CORNER);
-		pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), pg.textWidth(pop)) + 6, 39);
-		pg.fill(0, 0, 0);
-		pg.textAlign(PConstants.LEFT, PConstants.TOP);
-		pg.text(name, x+3, y-TRI_SIZE-33);
-		pg.text(pop, x+3, y - TRI_SIZE -18);
 		
+		pg.textAlign(PConstants.LEFT, PConstants.TOP);
+		if(getDescription() == null) {
+			pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), pg.textWidth(pop)) + 6, 39);
+			pg.fill(0, 0, 0);
+			pg.text(name, x+3, y-TRI_SIZE-33);
+			pg.text(pop, x+3, y - TRI_SIZE -18);
+		} else {
+			String description =  "Quakes:" + getDescription();
+			pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), Math.max(pg.textWidth(pop), pg.textWidth(description))) + 6, 57);
+			pg.fill(0, 0, 0);
+			pg.text(name, x+3, y-TRI_SIZE-33);
+			pg.text(pop, x+3, y - TRI_SIZE -18);			
+			pg.text(description, x+3, y - TRI_SIZE -3);
+		}
 		pg.popStyle();
 	}
 	
@@ -83,5 +93,10 @@ public class CityMarker extends CommonMarker {
 	private float getPopulation()
 	{
 		return Float.parseFloat(getStringProperty("population"));
+	}
+	
+	private String getDescription()
+	{
+		return getStringProperty("description");
 	}
 }

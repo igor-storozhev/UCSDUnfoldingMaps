@@ -74,8 +74,9 @@ public class ParseFeed {
 		
 
 			}
-		
+		    //features.get(1).putProperty(arg0, arg1);
 			return features;
+			
 		}
 
 	

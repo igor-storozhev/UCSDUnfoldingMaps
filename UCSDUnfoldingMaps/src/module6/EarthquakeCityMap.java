@@ -228,6 +228,7 @@ public class EarthquakeCityMap extends PApplet {
 		for (Marker marker : cityMarkers) {
 			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
 				lastClicked = (CommonMarker)marker;
+				String desc = "";
 				// Hide all the other earthquakes and hide
 				for (Marker mhide : cityMarkers) {
 					if (mhide != lastClicked) {
@@ -239,8 +240,12 @@ public class EarthquakeCityMap extends PApplet {
 					if (quakeMarker.getDistanceTo(marker.getLocation()) 
 							> quakeMarker.threatCircle()) {
 						quakeMarker.setHidden(true);
+					} else {
+						desc = desc + quakeMarker.getTitle();
 					}
 				}
+				// fill data about city
+				lastClicked.setProperty("description", desc);
 				return;
 			}
 		}		
