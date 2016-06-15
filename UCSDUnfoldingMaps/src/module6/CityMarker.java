@@ -50,6 +50,12 @@ public class CityMarker extends CommonMarker {
 		pg.popStyle();
 	}
 	
+	// Count number of lines in string http://stackoverflow.com/questions/2850203/count-the-number-of-lines-in-a-java-string
+	private int countLines(String str){
+		   String[] lines = str.split("\r\n|\r|\n");
+		   return  lines.length;
+	}
+	
 	/** Show the title of the city if this marker is selected */
 	public void showTitle(PGraphics pg, float x, float y)
 	{
@@ -65,16 +71,20 @@ public class CityMarker extends CommonMarker {
 		
 		pg.textAlign(PConstants.LEFT, PConstants.TOP);
 		if(getDescription() == null) {
-			pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), pg.textWidth(pop)) + 6, 39);
+			pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), pg.textWidth(pop)) + 6, 39, 8);
 			pg.fill(0, 0, 0);
 			pg.text(name, x+3, y-TRI_SIZE-33);
 			pg.text(pop, x+3, y - TRI_SIZE -18);
 		} else {
-			String description =  "Quakes:" + getDescription();
-			pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), Math.max(pg.textWidth(pop), pg.textWidth(description))) + 6, 57);
+			
+			String description =  "Nearest Earthquakes:\n" + getDescription();
+			pg.rect(x, y-TRI_SIZE-39, Math.max(pg.textWidth(name), Math.max(pg.textWidth(pop), 
+					pg.textWidth(description))) + 6, 39 + (19 * this.countLines(description)), 8);
 			pg.fill(0, 0, 0);
+			//pg.color(255, 55, 55);
 			pg.text(name, x+3, y-TRI_SIZE-33);
 			pg.text(pop, x+3, y - TRI_SIZE -18);			
+			pg.fill(255, 0, 0);
 			pg.text(description, x+3, y - TRI_SIZE -3);
 		}
 		pg.popStyle();
@@ -94,9 +104,15 @@ public class CityMarker extends CommonMarker {
 	{
 		return Float.parseFloat(getStringProperty("population"));
 	}
-	
+	/* get unsorted list of earthquake titles for city if any */
 	private String getDescription()
 	{
-		return getStringProperty("description");
+		String s = getStringProperty("description");
+		if(s == null) {
+			return null;
+		} else if(s.equals("")) {
+			return null;
+		}
+		return s;
 	}
 }

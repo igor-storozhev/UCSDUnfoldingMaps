@@ -244,7 +244,8 @@ public class EarthquakeCityMap extends PApplet {
 						desc = desc + quakeMarker.getTitle() + "\n";
 					}
 				}
-				// fill data about city
+				// fill data about city in different properties
+				// description of city
 				lastClicked.setProperty("description", desc);
 				return;
 			}
