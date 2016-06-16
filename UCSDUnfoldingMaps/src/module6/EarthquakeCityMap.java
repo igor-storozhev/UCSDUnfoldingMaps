@@ -58,6 +58,9 @@ public class EarthquakeCityMap extends PApplet {
 	private List<Marker> cityMarkers;
 	// Markers for each earthquake
 	private List<Marker> quakeMarkers;
+	
+	// Markers of quake for selected city
+	private List<Marker> selectedCityMarkers;
 
 	// A List of country markers
 	private List<Marker> countryMarkers;
@@ -136,7 +139,8 @@ public class EarthquakeCityMap extends PApplet {
 		background(0);
 		map.draw();
 		addKey();
-		
+		// display additional info about city earthquake if any exist
+		cityInfo();
 	}
 	
 	
@@ -209,6 +213,7 @@ public class EarthquakeCityMap extends PApplet {
 		if (lastClicked != null) {
 			unhideMarkers();
 			lastClicked = null;
+			selectedCityMarkers.clear(); // remove all info so info menu will disappear
 		}
 		else if (lastClicked == null) 
 		{
@@ -228,7 +233,7 @@ public class EarthquakeCityMap extends PApplet {
 		for (Marker marker : cityMarkers) {
 			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
 				lastClicked = (CommonMarker)marker;
-				String desc = "";
+				StringBuilder desc = new StringBuilder();
 				// Hide all the other earthquakes and hide
 				for (Marker mhide : cityMarkers) {
 					if (mhide != lastClicked) {
@@ -241,15 +246,53 @@ public class EarthquakeCityMap extends PApplet {
 							> quakeMarker.threatCircle()) {
 						quakeMarker.setHidden(true);
 					} else {
-						desc = desc + quakeMarker.getTitle() + "\n";
+						// fill data about city in different list
+						selectedCityMarkers.add(quakeMarker);
+						// make string for brief hover 
+						desc.append(quakeMarker.getTitle() + "\n");
 					}
 				}
-				// fill data about city in different properties
+				// Analyze earthquake for city
+				cityQuakeAnalyze();
 				// description of city
-				lastClicked.setProperty("description", desc);
+				lastClicked.setProperty("description", desc.toString());
 				return;
 			}
 		}		
+	}
+	
+	// TODO Helper method that will analyze data about earthquakes near clicked city stored in selectedCityMarkers.
+	// Results saved into lastClicked properties: "quaketotal", "avgmagnitude", "lastquake"
+	private enum CityProperty {
+		QTOTAL("quaketotal"), QAVG("avgmagintude"), QLAST("lastquake");
+		private String name;
+		CityProperty(String name) {
+			this.name = name;
+		}
+		public String getName() {
+			return name;
+		}
+		public String toString() {
+			return name;
+		}
+	}
+	private void cityQuakeAnalyze() {
+		// check if any data exists
+		if(this.selectedCityMarkers == null) {
+			return; // nothing to do
+		}
+		// get data for analysis
+		Integer qTotal = 0;
+		Float qSumMagnitude = Float.MIN_VALUE;
+		for(Marker qmarker: this.selectedCityMarkers) {
+			qTotal ++;
+			qSumMagnitude = ((EarthquakeMarker) qmarker).getMagnitude();
+		}
+		// calculate avg magnitude
+		Float qAvg = qSumMagnitude/qTotal;
+		// save analysis data to lastClicked properties
+		this.lastClicked.setProperty(CityProperty.QTOTAL, qTotal.toString());
+		
 	}
 	
 	// Helper method that will check if an earthquake marker was clicked on
@@ -289,7 +332,15 @@ public class EarthquakeCityMap extends PApplet {
 			marker.setHidden(false);
 		}
 	}
-	
+
+	// TODO: display city info if exist
+	private void cityInfo() {
+		if(lastClicked.getProperty("quaketotal") == null) {
+			return; // nothing to display
+		}
+		
+	}
+
 	// helper method to draw key in GUI
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
