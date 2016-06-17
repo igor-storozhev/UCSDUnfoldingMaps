@@ -90,6 +90,11 @@ public class CityMarker extends CommonMarker {
 		pg.popStyle();
 	}
 	
+	public String getCityName() {
+		//return this.getCity() + " " + this.getCountry();
+		return this.getCity();
+	}
+	
 	private String getCity()
 	{
 		return getStringProperty("name");
