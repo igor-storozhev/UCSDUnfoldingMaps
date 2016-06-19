@@ -281,7 +281,7 @@ public class EarthquakeCityMap extends PApplet {
 		StringBuilder sb = new StringBuilder();
 		for (Marker qmarker : this.selectedCityMarkers) {
 			qTotal++;
-			qSumMagnitude = ((EarthquakeMarker) qmarker).getMagnitude();
+			qSumMagnitude += ((EarthquakeMarker) qmarker).getMagnitude();
 			// last hour earthquake
 			String age = ((EarthquakeMarker) qmarker).getStringProperty("age");
 			if ("Past Hour".equals(age) || "Past Day".equals(age)) {
