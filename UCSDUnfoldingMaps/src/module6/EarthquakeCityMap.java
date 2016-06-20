@@ -367,16 +367,26 @@ public class EarthquakeCityMap extends PApplet {
 		rect(xbase, ybase, 150, 250, 8);
 		fill(0);
 		textAlign(LEFT, CENTER);
-		textSize(12);
+		textSize(18);
 		text(cityName, xbase + 25, ybase + 25);
 		
 		fill(0, 0, 0);
+		textSize(12);
 		textAlign(LEFT, CENTER);
-		text("Total Quakes: " + qTotal, xbase + 10, ybase + 70);
-		text("Average Magnitude: " + avgMagnitude, xbase + 10, ybase + 90);
+		text("Total Quakes: " + qTotal, xbase + 10, ybase + 50);
+		text("Average Magnitude: " + avgMagnitude, xbase + 10, ybase + 70);
 		
-		if (lastClicked.getProperty(CityProperty.QLAST.name()) != null) {
-			text("Last Day/Hour Quakes:\n" + lastQuake, xbase + 10, ybase + 130);			
+//		if (lastClicked.getProperty(CityProperty.QLAST.name()) != null) {
+		if (lastQuake != null && !lastQuake.equals("")) {
+			text("Last Day/Hour Quakes:", xbase + 10, ybase + 90);	
+			// split by length
+			StringBuilder sb = new StringBuilder();
+			int index = 0;
+			while (index < lastQuake.length()) { // split line by new line
+			    sb.append(lastQuake.substring(index, Math.min(index + 19,lastQuake.length())) + "\n");
+			    index += 19;
+			}
+			text(sb.toString(), xbase + 10, ybase + 140);
 		}
 	}
 
