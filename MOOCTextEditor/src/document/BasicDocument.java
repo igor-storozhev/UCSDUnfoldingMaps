@@ -56,7 +56,11 @@ public class BasicDocument extends Document
 	{
 	    //TODO: Implement this method.  See the Module 1 support videos 
         // if you need help.
-        return 0;
+		List<String> sentences = this.getTokens("[.!?]+\\z?");
+		for(String s: sentences) {
+			System.out.println("sentences: " + s);
+		}
+        return sentences.size();
 	}
 	
 	/**
