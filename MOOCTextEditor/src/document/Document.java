@@ -67,7 +67,36 @@ public abstract class Document {
 		// TODO: Implement this method so that you can call it from the 
 	    // getNumSyllables method in BasicDocument (module 1) and 
 	    // EfficientDocument (module 2).
-	    return 0;
+		int nSyl = 0;
+		boolean inSyl = false;
+		int vowelExist = 0;
+		String vowels = "aAiIoOuUyYeE";
+		char[] cWord = word.toCharArray();
+		for(char ch: cWord) {
+			// check next symbol is a vowel
+			if(vowels.indexOf(ch) > -1) {
+				if(inSyl == false) {
+					inSyl = true;
+					nSyl++;
+					vowelExist ++;
+				} else {
+					// continues of vowels
+					vowelExist ++;
+				}
+			} else {
+				// not a vowel not in syllable
+				inSyl = false;
+			}
+		}
+		// special logic for last e
+		if(cWord[cWord.length-1] == 'e' || cWord[cWord.length-1] == 'E') {
+			// if prelast symbol is not vowel and any vowel already exists in previous syllables then last 'e' is not syllable
+			if((vowels.indexOf(cWord[cWord.length - 2]) > -1) == false && vowelExist > 1 && nSyl > 1) {
+				nSyl --;
+			}
+		}
+		//System.out.println("Word: " + word + " nSyl: " + nSyl);
+	    return nSyl;
 	}
 	
 	/** A method for testing

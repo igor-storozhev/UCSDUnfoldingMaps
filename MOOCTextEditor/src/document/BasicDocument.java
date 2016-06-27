@@ -36,7 +36,11 @@ public class BasicDocument extends Document
 	{
 		//TODO: Implement this method in week 1 according to the comments above.  
 		// See the Module 1 support videos if you need help.
-	    return 0;
+		List<String> words = this.getTokens("[a-zA-Z]+");
+		//for(String w: words) {
+		//	System.out.println("word: " + w);
+		//}
+	    return words.size();
 	}
 	
 	/**
@@ -56,10 +60,10 @@ public class BasicDocument extends Document
 	{
 	    //TODO: Implement this method.  See the Module 1 support videos 
         // if you need help.
-		List<String> sentences = this.getTokens("[.!?]+\\z?");
-		for(String s: sentences) {
-			System.out.println("sentences: " + s);
-		}
+		List<String> sentences = this.getTokens("[^.!?]+\\z?");
+		//for(String s: sentences) {
+		//	System.out.println("sentences: " + s);
+		//}
         return sentences.size();
 	}
 	
@@ -85,7 +89,21 @@ public class BasicDocument extends Document
 		// expression for the syllable counting.  We recommend you implement 
 		// the helper function countSyllables in Document.java using a loop, 
 		// and then call it here on each word.
-        return 0;
+        /*
+		List<String> syllables = this.getTokens("[aAiIoOuUyY]+|[eE]+\\w"); // does not work for "be"
+		for(String s: syllables) {
+			System.out.println("syllables: " + s);
+		}    
+		return syllables.size();
+		*/
+		int numSyl = 0;
+		// get all words
+		List<String> words = this.getTokens("[a-zA-Z]+");
+		for(String word: words) {
+			//System.out.println("word: " + word);
+			numSyl += this.countSyllables(word);
+		}
+		return numSyl;
 	}
 	
 	
