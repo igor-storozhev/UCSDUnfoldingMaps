@@ -137,6 +137,7 @@ public abstract class Document {
 		else {
 			System.out.println("FAILED.\n");
 		}
+		System.out.println("Flash value: " + doc.getFleschScore() + "\n");
 		return passed;
 	}
 	
@@ -160,7 +161,12 @@ public abstract class Document {
 	public double getFleschScore()
 	{
 	    // TODO: Implement this method in week 1
-	    return 0.0;
+		double words = (double) this.getNumWords();         //System.out.println("Words: " + words);
+		double sentences = (double) this.getNumSentences(); //System.out.println("Sentences: " + sentences);
+		double syllabels = (double) this.getNumSyllables(); //System.out.println("Syllables: " + syllabels);
+		// calculate with formula
+		double result = 206.835 - 1.015 * (words / sentences) - 84.6 * (syllabels / words);
+	    return result;
 	}
 	
 	
