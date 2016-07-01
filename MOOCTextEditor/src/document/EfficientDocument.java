@@ -2,6 +2,8 @@ package document;
 
 import java.util.List;
 
+import javafx.util.converter.NumberStringConverter;
+
 /** 
  * A class that represents a text document
  * It does one pass through the document to count the number of syllables, words, 
@@ -54,6 +56,26 @@ public class EfficientDocument extends Document {
 		
 		// TODO: Finish this method.  Remember the countSyllables method from 
 		// Document.  That will come in handy here.  isWord defined above will also help.
+		numSyllables = numWords = numSentences = 0;
+		boolean inSentence = false;
+		for(String token: tokens) {
+			
+			if(isWord(token)) {
+				// count words and syllables
+				numWords ++;
+				numSyllables += this.countSyllables(token);
+				inSentence = true;
+				
+			} else {
+				// count sentences
+				numSentences ++;
+				inSentence = false;
+			}
+		}
+		if(inSentence) {
+			// there is last word in tokens without '.?!' ending
+			numSentences ++;
+		}
 	}
 
 	
@@ -73,7 +95,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSentences() {
 		//TODO: write this method.  Hint: It's simple
-		return 0;
+		return numSentences;
 	}
 
 	
@@ -94,7 +116,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumWords() {
 		//TODO: write this method.  Hint: It's simple
-	    return 0;
+	    return numWords;
 	}
 
 
@@ -116,7 +138,7 @@ public class EfficientDocument extends Document {
 	@Override
 	public int getNumSyllables() {
         //TODO: write this method.  Hint: It's simple
-        return 0;
+        return numSyllables;
 	}
 	
 	// Can be used for testing
