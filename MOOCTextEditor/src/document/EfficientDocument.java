@@ -2,7 +2,7 @@ package document;
 
 import java.util.List;
 
-import javafx.util.converter.NumberStringConverter;
+
 
 /** 
  * A class that represents a text document
