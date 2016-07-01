@@ -89,7 +89,7 @@ public abstract class Document {
 			}
 		}
 		// special logic for last e
-		if(cWord[cWord.length-1] == 'e' || cWord[cWord.length-1] == 'E') {
+		if(cWord.length > 1 && (cWord[cWord.length-1] == 'e' || cWord[cWord.length-1] == 'E')) {
 			// if prelast symbol is not vowel and any vowel already exists in previous syllables then last 'e' is not syllable
 			if((vowels.indexOf(cWord[cWord.length - 2]) > -1) == false && vowelExist > 1 && nSyl > 1) {
 				nSyl --;
