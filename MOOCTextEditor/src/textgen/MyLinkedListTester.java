@@ -145,6 +145,8 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
+		shortList.add(1, "C");
+		assertEquals("Check second", "C", shortList.get(1));
 		
 	}
 	
