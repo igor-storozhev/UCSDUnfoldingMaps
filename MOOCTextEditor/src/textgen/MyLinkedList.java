@@ -83,13 +83,18 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			node = node.next;
 		}
 		
-		LLNode<E> nextNode = node.next;
+		//LLNode<E> nextNode = node.next;
+		LLNode<E> nextNode = node;
+		LLNode<E> prevNode = node.prev;
 		LLNode<E> newNode  = new LLNode<E>(element);
 		
+		//newNode.next = nextNode;
 		newNode.next = nextNode;
-		newNode.prev = node;
+		//newNode.prev = node.prev;
+		newNode.prev = prevNode;
 		
-		node.next = newNode;
+		//node.next = newNode;
+		prevNode.next = newNode;
 		nextNode.prev = newNode;
 		
 		this.size ++;
@@ -100,7 +105,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public int size() 
 	{
 		// TODO: Implement this method
-		return -1;
+		return this.size;
 	}
 
 	/** Remove a node at the specified index and return its data element.
@@ -126,7 +131,22 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		// TODO: Implement this method
 		return null;
-	}   
+	}
+
+	@Override
+	public String toString() {
+		String s = new String("");
+		LLNode <E> node = this.head.next;
+		for(int i = 0; i < this.size; i ++) {
+			
+			s = s + node.data.toString();
+			//s = (String) node.data;
+			node = node.next;
+		}
+		//System.out.println(s);
+		return "MyLinkedList [head=" + head + ", tail=" + tail + ", size=" + size + s + "]";
+	} 
+	
 }
 
 class LLNode<E> 

@@ -145,8 +145,15 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
-		shortList.add(1, "C");
-		assertEquals("Check second", "C", shortList.get(1));
+		shortList.add(1, "C"); // insert into 'A','B' list
+		shortList.add(shortList.size(), "D"); // insert into 'A','B' list
+		System.out.println(shortList);
+		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
+		assertEquals("Check add second element", "C", shortList.get(4)); // must be 'A','C','B','D'
+		shortList.add(0, "E"); // insert into 'A','B' list
+
+		System.out.println(shortList);
+		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
 		
 	}
 	
