@@ -31,7 +31,8 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public boolean add(E element ) 
 	{
 		// TODO: Implement this method
-		LLNode<E> lastNode = this.tail.prev;
+		this.add(this.size, element);
+/*		LLNode<E> lastNode = this.tail.prev;
 		LLNode<E> tailNode = this.tail;
 		LLNode<E> newNode  = new LLNode<E>(element);
 		
@@ -43,7 +44,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		
 		this.size ++;
 		//System.out.println("size: " + this.size + " element: " + element);
-		
+*/		
 		return true;
 	}
 
@@ -73,10 +74,14 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		// TODO: Implement this method
 		// find node to insert
-		if(index < 0 || index > size -1 ) {
+		if(index < 0 || index > this.size) {
 			// throw exception
 			throw new IndexOutOfBoundsException();
 		}
+		//if(index == this.size) {
+		//	this.add(element); // append at end
+		//	return;
+		//}
 		LLNode <E> node = this.head.next;
 		for(int i = 0; i < index; i ++) {
 			// find node with req index
@@ -98,6 +103,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		nextNode.prev = newNode;
 		
 		this.size ++;
+		return;
 	}
 
 
@@ -135,11 +141,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
 	@Override
 	public String toString() {
-		String s = new String("");
+		String s = new String(":");
 		LLNode <E> node = this.head.next;
 		for(int i = 0; i < this.size; i ++) {
 			
-			s = s + node.data.toString();
+			s = s + node.data.toString() + " ";
 			//s = (String) node.data;
 			node = node.next;
 		}

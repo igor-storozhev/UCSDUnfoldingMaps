@@ -124,7 +124,9 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
-		
+		emptyList.add(1);
+		assertEquals("add 1 to emptyList", (Integer) 1, emptyList.get(0));
+		System.out.println(emptyList);
 	}
 
 	
@@ -146,14 +148,15 @@ public class MyLinkedListTester {
 	{
         // TODO: implement this test
 		shortList.add(1, "C"); // insert into 'A','B' list
-		shortList.add(shortList.size(), "D"); // insert into 'A','B' list
-		System.out.println(shortList);
+		//shortList.add(shortList.size()-1, "D"); // insert into 'A','B' list
+		shortList.add(3, "D"); // insert into 'A','C','B' list
+/*		System.out.println(shortList);
 		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
 		assertEquals("Check add second element", "C", shortList.get(4)); // must be 'A','C','B','D'
 		shortList.add(0, "E"); // insert into 'A','B' list
-
+*/
 		System.out.println(shortList);
-		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
+//		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
 		
 	}
 	
