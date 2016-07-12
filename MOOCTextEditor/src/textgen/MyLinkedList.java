@@ -73,32 +73,23 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public void add(int index, E element ) 
 	{
 		// TODO: Implement this method
-		// find node to insert
 		if(index < 0 || index > this.size) {
 			// throw exception
 			throw new IndexOutOfBoundsException();
 		}
-		//if(index == this.size) {
-		//	this.add(element); // append at end
-		//	return;
-		//}
+		// find node to insert
 		LLNode <E> node = this.head.next;
 		for(int i = 0; i < index; i ++) {
 			// find node with req index
 			node = node.next;
 		}
-		
-		//LLNode<E> nextNode = node.next;
 		LLNode<E> nextNode = node;
 		LLNode<E> prevNode = node.prev;
 		LLNode<E> newNode  = new LLNode<E>(element);
 		
-		//newNode.next = nextNode;
 		newNode.next = nextNode;
-		//newNode.prev = node.prev;
 		newNode.prev = prevNode;
 		
-		//node.next = newNode;
 		prevNode.next = newNode;
 		nextNode.prev = newNode;
 		
@@ -123,7 +114,27 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E remove(int index) 
 	{
 		// TODO: Implement this method
-		return null;
+		// check boundaries
+		if(index < 0 || index > this.size -1) {
+			// throw exception
+			throw new IndexOutOfBoundsException();
+		}
+		// find node to delete
+		LLNode <E> node = this.head.next;
+		for(int i = 0; i < index; i ++) {
+			// find node with req index
+			node = node.next;
+		}
+		LLNode<E> delNode  = node;
+		LLNode<E> prevNode = node.prev;
+		LLNode<E> nextNode  = node.next;
+		
+		prevNode.next = nextNode;
+		nextNode.prev = prevNode;
+		
+		this.size --;
+			
+		return delNode.data;
 	}
 
 	/**
@@ -136,20 +147,30 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	public E set(int index, E element) 
 	{
 		// TODO: Implement this method
-		return null;
+		// check boundaries
+		if(index < 0 || index > this.size -1) {
+			// throw exception
+			throw new IndexOutOfBoundsException();
+		}
+		// find node to replace
+		LLNode <E> node = this.head.next;
+		for(int i = 0; i < index; i ++) {
+			// find node with req index
+			node = node.next;
+		}
+		E prevData = node.data;
+		node.data = element;
+		return prevData;
 	}
 
 	@Override
 	public String toString() {
 		String s = new String(":");
 		LLNode <E> node = this.head.next;
-		for(int i = 0; i < this.size; i ++) {
-			
+		for(int i = 0; i < this.size; i ++) {	
 			s = s + node.data.toString() + " ";
-			//s = (String) node.data;
 			node = node.next;
 		}
-		//System.out.println(s);
 		return "MyLinkedList [head=" + head + ", tail=" + tail + ", size=" + size + s + "]";
 	} 
 	

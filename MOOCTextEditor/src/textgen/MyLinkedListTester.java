@@ -45,7 +45,6 @@ public class MyLinkedListTester {
 		
 	}
 
-	
 	/** Test if the get method is working correctly.
 	 */
 	/*You should not need to add much to this method.
@@ -102,42 +101,57 @@ public class MyLinkedListTester {
 		
 	}
 	
-	
-	/** Test removing an element from the list.
-	 * We've included the example from the concept challenge.
-	 * You will want to add more tests.  */
+	/** Test setting an element in the list */
 	@Test
-	public void testRemove()
+	public void testSet()
 	{
-		int a = list1.remove(0);
-		assertEquals("Remove: check a is correct ", 65, a);
-		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
-		assertEquals("Remove: check size is correct ", 2, list1.size());
+	    // TODO: implement this test
+		int a = list1.set(0, 30);
+		assertEquals("Check set(0,30) replacement returning", 65, a);
+		assertEquals("Check set(0,30) replaced element", (Integer) 30, list1.get(0));
+		a = list1.set(list1.size() -1, 22);
+		assertEquals("Check set(list1.size() -1, 22) replacement last returning", a, 42);
+		assertEquals("Check set(list1.size() -1, 22) replacement last element", (Integer)22, list1.get(list1.size()-1));
 		
-		// TODO: Add more tests here
-	}
-	
-	/** Test adding an element into the end of the list, specifically
-	 *  public boolean add(E element)
-	 * */
-	@Test
-	public void testAddEnd()
-	{
-        // TODO: implement this test
-		emptyList.add(1);
-		assertEquals("add 1 to emptyList", (Integer) 1, emptyList.get(0));
-		System.out.println(emptyList);
-	}
+		// incorrect set tests
+		try {
+			emptyList.set(0, 11);
+			fail("Already empty emptyList.set(0, 11)");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			shortList.set(shortList.size(), "22");
+			fail("Out of bounds shortList.set(shortList.size(), 22)");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			shortList.set(-1, "33");
+			fail("Out of bounds shortList.set(-1, 33)");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
 
+		//System.out.println("testSet " + list1);
+		
+	    
+	}
 	
 	/** Test the size of the list */
 	@Test
 	public void testSize()
 	{
 		// TODO: implement this test
+		assertEquals("Check size of list1", 3, this.list1.size());
+		//System.out.println(this.list1);
+		assertEquals("Check size of longList", LONG_LIST_LENGTH, this.longerList.size());
+		//System.out.println(this.longerList);
+		assertEquals("Check size of emptyList", 0, this.emptyList.size());
 	}
-
-	
 	
 	/** Test adding an element into the list at a specified index,
 	 * specifically:
@@ -147,27 +161,102 @@ public class MyLinkedListTester {
 	public void testAddAtIndex()
 	{
         // TODO: implement this test
-		shortList.add(1, "C"); // insert into 'A','B' list
-		//shortList.add(shortList.size()-1, "D"); // insert into 'A','B' list
-		shortList.add(3, "D"); // insert into 'A','C','B' list
-/*		System.out.println(shortList);
-		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
-		assertEquals("Check add second element", "C", shortList.get(4)); // must be 'A','C','B','D'
-		shortList.add(0, "E"); // insert into 'A','B' list
-*/
-		System.out.println(shortList);
-//		assertEquals("Check add second element", "C", shortList.get(1)); // must be 'A','C','B'
+		shortList.add(1, "C"); // insert between 'A','B' list
+		shortList.add(shortList.size(), "D"); // add to the end
+		shortList.add(0, "E"); // insert into head 'A','C','B','D' list
+
+		assertEquals("Check add 3 element", "C", shortList.get(2));     // must be 'E','A','C','B','D'
+		assertEquals("Check add last element", "D", shortList.get(4));  // must be 'E','A','C','B','D'
+		assertEquals("Check add first element", "E", shortList.get(0)); // must be 'E','A','C','B','D'
+
+		// check incorrect conditions
+		try {
+			this.longerList.add(-1, 10);
+			fail("Check negative index longerList.add(-1, 10)");
+		} 
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			this.longerList.add(longerList.size() + 1, 10);
+			fail("Check out of band index longerList.add(longerList.size() + 1, 10)");
+		} 
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		
+		//System.out.println(longerList);
 		
 	}
-	
-	/** Test setting an element in the list */
+
+	/** Test adding an element into the end of the list, specifically
+	 *  public boolean add(E element)
+	 * */
 	@Test
-	public void testSet()
+	public void testAddEnd()
 	{
-	    // TODO: implement this test
-	    
+        // TODO: implement this test
+		this.list1.add(99);
+		assertEquals("add 99 to list1", (Integer) 99, this.list1.get(this.list1.size()-1));
+		//System.out.println(this.list1);
+		
+		this.emptyList.add(100);
+		assertEquals("add 100 to emptyList", (Integer) 100, this.emptyList.get(this.emptyList.size()-1));
+		//System.out.println(emptyList);
 	}
-	
+
+	/** Test removing an element from the list.
+	 * We've included the example from the concept challenge.
+	 * You will want to add more tests.  */
+	@Test
+	public void testRemove()
+	{
+		//System.out.println(this.list1);
+		int a = list1.remove(0);
+		//System.out.println(this.list1);
+
+		
+		assertEquals("Remove: check a is correct ", 65, a);
+		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
+		assertEquals("Remove: check size is correct ", 2, list1.size());
+		//System.out.println(this.list1);
+
+		// TODO: Add more tests here
+		int b = list1.remove(list1.size()-1);
+		assertEquals("Remove end element", 42, b);
+		assertEquals("Remove: check size is correct ", 1, list1.size());
+		//System.out.println(this.list1);		
+		
+		int c = list1.remove(list1.size()-1);
+		assertEquals("Remove end element", 21, c);
+		assertEquals("Remove: check size is correct ", 0, list1.size());
+		//System.out.println(this.list1);
+		
+		// incorrect remove tests
+		try {
+			list1.remove(0);
+			fail("Already empty list1.remove(0)");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			shortList.remove(shortList.size());
+			fail("Out of bounds shortList.remove(shortList.size())");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		try {
+			shortList.remove(-1);
+			fail("Out of bounds shortList.remove(-1)");
+		}
+		catch(IndexOutOfBoundsException e) {
+			
+		}
+		
+	}
+
 	
 	// TODO: Optionally add more test methods.
 	
