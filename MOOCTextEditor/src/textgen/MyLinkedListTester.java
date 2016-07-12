@@ -135,6 +135,13 @@ public class MyLinkedListTester {
 		catch(IndexOutOfBoundsException e) {
 			
 		}
+		try {
+			this.longerList.set(1, null);
+			fail("Check null element longerList.add(1, null)");
+		} 
+		catch(NullPointerException e) {
+			
+		}
 
 		//System.out.println("testSet " + list1);
 		
@@ -184,6 +191,13 @@ public class MyLinkedListTester {
 		catch(IndexOutOfBoundsException e) {
 			
 		}
+		try {
+			this.longerList.add(1, null);
+			fail("Check null element longerList.add(1, null)");
+		} 
+		catch(NullPointerException e) {
+			
+		}
 		
 		//System.out.println(longerList);
 		
@@ -203,6 +217,15 @@ public class MyLinkedListTester {
 		this.emptyList.add(100);
 		assertEquals("add 100 to emptyList", (Integer) 100, this.emptyList.get(this.emptyList.size()-1));
 		//System.out.println(emptyList);
+		
+		try {
+			this.longerList.add(null);
+			fail("Check null element longerList.add(null)");
+		} 
+		catch(NullPointerException e) {
+			
+		}
+
 	}
 
 	/** Test removing an element from the list.

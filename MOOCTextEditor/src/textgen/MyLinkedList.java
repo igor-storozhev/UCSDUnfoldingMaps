@@ -77,6 +77,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			// throw exception
 			throw new IndexOutOfBoundsException();
 		}
+		if(element == null) {
+			// null element is not allowed by description
+			throw new NullPointerException();
+		}
 		// find node to insert
 		LLNode <E> node = this.head.next;
 		for(int i = 0; i < index; i ++) {
@@ -151,6 +155,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		if(index < 0 || index > this.size -1) {
 			// throw exception
 			throw new IndexOutOfBoundsException();
+		}
+		if(element == null) {
+			// null element is not allowed by description
+			throw new NullPointerException();
 		}
 		// find node to replace
 		LLNode <E> node = this.head.next;
