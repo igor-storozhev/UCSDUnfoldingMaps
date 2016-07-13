@@ -44,7 +44,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		String prevWord = this.starter; // set "prevWord" to be starter
 		ListNode node;
 		for(String word: words) {       
-			System.out.print(word + "-");
+			//System.out.print(word + "-");
 			if((node = getWordInListNode(prevWord)) != null) { // check to see if "prevWord" is already a node in the list
 				node.addNextWord(word);                        //  add "w" as a nextWord to the "prevWord" node
 			} else {
@@ -189,6 +189,12 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		gen.retrain(textString2);
 		System.out.println(gen);
 		System.out.println(gen.generateText(20));
+		
+		//String text = document.DocumentBenchmarking.getStringFromFile("data/warAndPeace.txt", 500000);
+		//gen.retrain(text);
+		//System.out.println(gen);
+		//System.out.println(gen.generateText(50));
+		
 	}
 
 }
@@ -228,6 +234,7 @@ class ListNode
 		// from http://stackoverflow.com/questions/363681/generating-random-integers-in-a-specific-range
 		// int randomNum = rand.nextInt((max - min) + 1) + min;
 		int randomIndex = generator.nextInt((this.nextWords.size() - 1 - 0) + 1) + 0;
+		//System.out.println("nextWord.size()=" + this.nextWords.size() + " randomIndex=" + randomIndex);
 	    return nextWords.get(randomIndex); // return random word form list
 	}
 
