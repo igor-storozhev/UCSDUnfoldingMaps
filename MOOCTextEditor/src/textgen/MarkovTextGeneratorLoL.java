@@ -39,9 +39,11 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		
 		// split text to words. yes it is not so effective. 
 		List<String> words = this.getTokens("[a-zA-Z.,']+", sourceText);
-		
-		this.starter = words.get(0);    // set "starter" to be the first word in the text
-		String prevWord = this.starter; // set "prevWord" to be starter
+		if(words.size() < 1) {
+			return;			               // no any words in input sourceText
+		}
+		this.starter = words.remove(0);    // set "starter" to be the first word in the text
+		String prevWord = this.starter;    // set "prevWord" to be starter
 		ListNode node;
 		for(String word: words) {       
 			//System.out.print(word + "-");
@@ -70,7 +72,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public String generateText(int numWords) {
 	    // TODO: Implement this method
 		
-		if(this.starter == null) {        // not trained yet
+		if(this.starter == null || numWords < 1) {                // not trained yet or number of words incorrect
 			return "";
 		}
 		String currWord = this.starter;   // set "currWord" to be the starter word
@@ -78,7 +80,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		output += currWord;               // add "currWord" to output
 		ListNode node;
 		String word;
-		for(int i = 0; i < numWords; i++) {                        // while you need more words
+		for(int i = 1; i < numWords; i++) {                        // while you need more words
 			if((node = getWordInListNode(currWord)) != null) {     // find the "node" corresponding to "currWord" in the list
 				word = node.getRandomNextWord(rnGenerator);        // select a random word "w" from the "wordList" for "node"
 				output += " " + word;                              // add "w" to the "output"
@@ -160,7 +162,7 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		System.out.println(textString);
 		gen.train(textString);
 		System.out.println(gen);
-		System.out.println(gen.generateText(20));
+		System.out.println(gen.generateText(10));
 		String textString2 = "You say yes, I say no, "+
 				"You say stop, and I say go, go, go, "+
 				"Oh no. You say goodbye and I say hello, hello, hello, "+
