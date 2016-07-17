@@ -39,7 +39,9 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		
 		// split text to words. yes it is not so effective. 
 		List<String> words = this.getTokens("[a-zA-Z.,']+", sourceText);
-		
+		if(words.size() < 1) {
+			return;                     // no words in input sourceText
+		}
 		this.starter = words.get(0);    // set "starter" to be the first word in the text
 		String prevWord = this.starter; // set "prevWord" to be starter
 		ListNode node;
@@ -190,6 +192,8 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		System.out.println(gen);
 		System.out.println(gen.generateText(20));
 		
+		gen.retrain("");
+
 		//String text = document.DocumentBenchmarking.getStringFromFile("data/warAndPeace.txt", 500000);
 		//gen.retrain(text);
 		//System.out.println(gen);
