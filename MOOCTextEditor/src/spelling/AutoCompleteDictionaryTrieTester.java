@@ -43,9 +43,10 @@ public class AutoCompleteDictionaryTrieTester {
 		smallDict.addWord("hey");
 		smallDict.addWord("a");
 		smallDict.addWord("subsequent");
+		smallDict.addWord("downhill");
 		
-		smallDict.printTree();
-		System.out.println("smallDict.size()=" + smallDict.size());
+		//smallDict.printTree();
+		//System.out.println("smallDict.size()=" + smallDict.size());
 		
 		DictionaryLoader.loadDictionary(largeDict, dictFile);
 	}
@@ -57,7 +58,7 @@ public class AutoCompleteDictionaryTrieTester {
 	public void testSize()
 	{
 		assertEquals("Testing size for empty dict", 0, emptyDict.size());
-		assertEquals("Testing size for small dict", 8, smallDict.size());
+		assertEquals("Testing size for small dict", 9, smallDict.size());
 		assertEquals("Testing size for large dict", 4438, largeDict.size());
 	}
 	
@@ -85,6 +86,10 @@ public class AutoCompleteDictionaryTrieTester {
 		assertEquals("Testing isWord on small: subsequent", true, smallDict.isWord("subsequent"));
 		assertEquals("Testing isWord on large: subsequent", true, largeDict.isWord("subsequent"));
 		
+		assertEquals("Testing isWord on small: downhil", false, smallDict.isWord("downhil"));
+		assertEquals("Testing isWord on small: downhille", false, smallDict.isWord("downhille"));
+		assertEquals("Testing isWord on small: downhill", true, smallDict.isWord("downhill"));
+
 		
 	}
 	
@@ -102,7 +107,7 @@ public class AutoCompleteDictionaryTrieTester {
 		smallDict.addWord("hellow");
 		largeDict.addWord("hellow");
 		
-		emptyDict.printTree();
+		//emptyDict.printTree();
 
 		assertEquals("Asserting hellow is in empty dict", true, emptyDict.isWord("hellow"));
 		assertEquals("Asserting hellow is in small dict", true, smallDict.isWord("hellow"));
