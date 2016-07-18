@@ -35,6 +35,7 @@ public class AutoCompleteDictionaryTrieTester {
 
 		smallDict.addWord("Hello");
 		smallDict.addWord("HElLo");
+		smallDict.addWord("heLLO");
 		smallDict.addWord("help");
 		smallDict.addWord("he");
 		smallDict.addWord("hem");
@@ -42,6 +43,9 @@ public class AutoCompleteDictionaryTrieTester {
 		smallDict.addWord("hey");
 		smallDict.addWord("a");
 		smallDict.addWord("subsequent");
+		
+		smallDict.printTree();
+		System.out.println("smallDict.size()=" + smallDict.size());
 		
 		DictionaryLoader.loadDictionary(largeDict, dictFile);
 	}
@@ -97,6 +101,8 @@ public class AutoCompleteDictionaryTrieTester {
 		emptyDict.addWord("hellow");
 		smallDict.addWord("hellow");
 		largeDict.addWord("hellow");
+		
+		emptyDict.printTree();
 
 		assertEquals("Asserting hellow is in empty dict", true, emptyDict.isWord("hellow"));
 		assertEquals("Asserting hellow is in small dict", true, smallDict.isWord("hellow"));

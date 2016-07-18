@@ -81,6 +81,11 @@ class TrieNode {
 	{
 		return children.keySet();
 	}
+	
+	/* set word for trie node */
+	public void setWord(String word) {
+		this.text = word;
+	}
 
 }
 

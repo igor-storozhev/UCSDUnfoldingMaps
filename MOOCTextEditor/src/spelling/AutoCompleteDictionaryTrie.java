@@ -20,6 +20,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
     public AutoCompleteDictionaryTrie()
 	{
 		root = new TrieNode();
+		this.size = 0;
 	}
 	
 	
@@ -40,7 +41,49 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean addWord(String word)
 	{
 	    //TODO: Implement this method.
-	    return false;
+
+		// check input conditions
+		if(word == null || word.equals("") == true) {
+			return false;
+		}
+		// convert word to chars array
+		char[] chars = word.toLowerCase().toCharArray();
+		
+		// locate node for word to insert, or locate that word is already in trie
+		TrieNode curNode = root;
+		boolean insertChild = false;
+		for(char ch: chars) {
+			// move to next node by ch key if it exists or create new
+			if(curNode.getChild(ch) == null) {
+				// node with ch is not exists, create it
+				//System.out.println("insert ch=" + ch);
+				curNode = curNode.insert(ch);
+				insertChild = true;
+			} else {
+				// set curNode to node found in dictionary
+				//System.out.println("find node ch=" + ch);
+				curNode = curNode.getChild(ch);
+			}
+			// find if current node has this word
+			if(curNode.getText().equals(word.toLowerCase())) {
+				if(insertChild) {
+					curNode.setEndsWord(true);
+					this.size ++;
+					//System.out.println("word " + word + " new word " + curNode.getText() + " size=" +this.size);
+					return true;
+				} else {
+					//System.out.println("word " + word + " found " + curNode.getText());
+					if(curNode.endsWord()) {
+						return false; // already exist in dictionary
+					} else {
+						curNode.setEndsWord(true);
+						this.size ++;
+						return true;  // new word as shorter version previous word
+					}
+				}
+			}
+		}
+		return true;
 	}
 	
 	/** 
@@ -50,7 +93,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public int size()
 	{
 	    //TODO: Implement this method
-	    return 0;
+	    return this.size;
 	}
 	
 	
@@ -60,7 +103,34 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
 	public boolean isWord(String s) 
 	{
 	    // TODO: Implement this method
-		return false;
+
+		// check input conditions
+		if(s == null || s.equals("") == true) {
+			return false;
+		}
+		// convert word to chars array
+		char[] chars = s.toLowerCase().toCharArray();
+		
+		// locate node for word to insert, or locate that word is already in trie
+		TrieNode curNode = root;
+		for(char ch: chars) {
+			// next node
+			if(curNode.getChild(ch) == null) {
+				// next node is not exists, so word is not found
+				return false;
+			}
+			// set curNode to node found in dictionary
+			curNode = curNode.getChild(ch);
+			// find if current node has this word
+			if(curNode.endsWord() && curNode.getText().equals(s.toLowerCase()) == true) {
+				return true; // exist in dictionary
+			}
+			
+		}
+		if(curNode.getText().equals(s.toLowerCase()) == true) {
+			return true; // exists in dictionary
+		}
+		return false;    // not exists in dictionary
 	}
 
 	/** 
@@ -116,7 +186,7 @@ public class AutoCompleteDictionaryTrie implements  Dictionary, AutoComplete {
  		if (curr == null) 
  			return;
  		
- 		System.out.println(curr.getText());
+ 		System.out.println(curr.getText() + " isWord:" + curr.endsWord());
  		
  		TrieNode next = null;
  		for (Character c : curr.getValidNextCharacters()) {
