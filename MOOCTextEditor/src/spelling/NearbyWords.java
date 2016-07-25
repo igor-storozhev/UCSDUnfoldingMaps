@@ -104,10 +104,26 @@ public class NearbyWords implements SpellingSuggest {
 																											// logic
 						!s.equals(sb.toString())) {
 					currentList.add(sb.toString());
-					System.out.println("insertion: " + sb.toString());
+					//System.out.println("insertion: " + sb.toString());
 				}
 			}
 		}
+		// try add to end of string
+		for (int charCode = (int) 'a'; charCode <= (int) 'z'; charCode++) {
+			// use StringBuffer for an easy interface to permuting the
+			// letters in the String
+			StringBuffer sb = new StringBuffer(s);
+			sb.append((char) charCode);
+
+			// if the item isn't in the list, isn't the original string, and
+			// (if wordsOnly is true) is a real word, add to the list
+			if (!currentList.contains(sb.toString()) && (!wordsOnly || dict.isWord(sb.toString())) && // slightly
+																										// obscure
+																										// logic
+					!s.equals(sb.toString())) {
+				currentList.add(sb.toString());
+			}
+		}		
 	}
 
 	/**
@@ -169,32 +185,34 @@ public class NearbyWords implements SpellingSuggest {
 
 		// TODO: Implement the remainder of this method, see assignment for
 		// algorithm
-		String currWord;
-		int currSugg = 0;
-		List<String> oneDistWords;
-		while(!queue.isEmpty() && currSugg < numSuggestions) {
-			currWord = queue.remove(0);  // get first element
-			oneDistWords = this.distanceOne(currWord, true); // get changed words 
-			for(String oneWord: oneDistWords) {
-				if(!visited.contains(oneWord)) {  // if not visited yet
-					visited.add(oneWord); // add to visited
-					queue.add(oneWord);
-					// if a dictionary word? already true in distanceOne
-					if(this.dict.isWord(oneWord)) {
-						retList.add(oneWord);
-						currSugg ++;
+		int nWords = 0;
+		int processedWords = 0;
+		while(!queue.isEmpty() && processedWords < NearbyWords.THRESHOLD) {
+			String currWord = queue.remove(0);
+			if(currWord != null) {
+				for(String childWord: this.distanceOne(currWord, false)) {				
+					if(visited.contains(childWord) == false) {
+						visited.add(childWord);
+						queue.add(childWord);
+						//System.out.println("childWord: " + childWord);
+						if(this.dict.isWord(childWord)) {
+							retList.add(childWord);
+							nWords ++;
+							if(nWords >= numSuggestions) {
+								return retList;
+							}
+ 						}
 					}
 				}
 			}
-			
+			processedWords ++;
 		}
 		return retList;
-
 	}
 
 	public static void main(String[] args) {
 		// basic testing code to get started
-		String word = "ib";
+		String word = "ii";
 		// Pass NearbyWords any Dictionary implementation you prefer
 		Dictionary d = new DictionaryHashSet();
 		DictionaryLoader.loadDictionary(d, "data/dict.txt");
@@ -204,6 +222,8 @@ public class NearbyWords implements SpellingSuggest {
 		System.out.println(l + "\n");
 
 		word = "tailo";
+		//word = "tailo";
+		word = "buil";
 		//word = "kangaro";
 		List<String> suggest = w.suggestions(word, 10);
 		System.out.println("Spelling Suggestions for \"" + word + "\" are:");
