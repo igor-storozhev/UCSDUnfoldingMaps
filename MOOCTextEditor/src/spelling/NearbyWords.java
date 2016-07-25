@@ -104,6 +104,7 @@ public class NearbyWords implements SpellingSuggest {
 																											// logic
 						!s.equals(sb.toString())) {
 					currentList.add(sb.toString());
+					System.out.println("insertion: " + sb.toString());
 				}
 			}
 		}
@@ -168,7 +169,25 @@ public class NearbyWords implements SpellingSuggest {
 
 		// TODO: Implement the remainder of this method, see assignment for
 		// algorithm
-
+		String currWord;
+		int currSugg = 0;
+		List<String> oneDistWords;
+		while(!queue.isEmpty() && currSugg < numSuggestions) {
+			currWord = queue.remove(0);  // get first element
+			oneDistWords = this.distanceOne(currWord, true); // get changed words 
+			for(String oneWord: oneDistWords) {
+				if(!visited.contains(oneWord)) {  // if not visited yet
+					visited.add(oneWord); // add to visited
+					queue.add(oneWord);
+					// if a dictionary word? already true in distanceOne
+					if(this.dict.isWord(oneWord)) {
+						retList.add(oneWord);
+						currSugg ++;
+					}
+				}
+			}
+			
+		}
 		return retList;
 
 	}
@@ -185,6 +204,7 @@ public class NearbyWords implements SpellingSuggest {
 		System.out.println(l + "\n");
 
 		word = "tailo";
+		//word = "kangaro";
 		List<String> suggest = w.suggestions(word, 10);
 		System.out.println("Spelling Suggestions for \"" + word + "\" are:");
 		System.out.println(suggest);
