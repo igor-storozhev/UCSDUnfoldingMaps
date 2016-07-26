@@ -221,7 +221,6 @@ public class NearbyWords implements SpellingSuggest {
 		System.out.println("One away word Strings for for \"" + word + "\" are:");
 		System.out.println(l + "\n");
 
-		word = "tailo";
 		//word = "tailo";
 		word = "buil";
 		//word = "kangaro";
