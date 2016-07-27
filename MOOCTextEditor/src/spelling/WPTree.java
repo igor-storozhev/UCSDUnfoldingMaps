@@ -67,11 +67,25 @@ public class WPTree implements WordPath {
 			// for each n in the list of neighbors
 			for(String neighbor: neighbors) {
 				// if n is not visited
+				if(visited.contains(neighbor.toLowerCase()) == false) {
+					// add n as a child of curr
+					curr.addChild(neighbor.toLowerCase());
+					// add n to the visited set
+					visited.add(neighbor.toLowerCase());
+					// add the node for n to the back of the queue
+					for(WPTreeNode child: curr.getChildren()) {
+						if(child != null) {
+							queue.add(child);
+						}
+						//  if n is word2
+						if(neighbor.equals(word2.toLowerCase())) {
+							// return the path from child to root
+							return child.buildPathToRoot();
+						}
+					}
+				}
 			}
 		}
-		
-		
-		
 	    return result;
 	}
 	
