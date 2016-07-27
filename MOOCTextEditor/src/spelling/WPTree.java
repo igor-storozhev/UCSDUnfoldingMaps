@@ -22,14 +22,17 @@ public class WPTree implements WordPath {
 	// used to search for nearby Words
 	private NearbyWords nw; 
 	
+	private Dictionary dictionary;
+	
 	// This constructor is used by the Text Editor Application
 	// You'll need to create your own NearbyWords object here.
 	public WPTree () {
 		this.root = null;
 		// TODO initialize a NearbyWords object
-		// Dictionary d = new DictionaryHashSet();
-		// DictionaryLoader.loadDictionary(d, "data/dict.txt");
-		// this.nw = new NearbyWords(d);
+		Dictionary d = new DictionaryHashSet();
+		DictionaryLoader.loadDictionary(d, "data/dict.txt");
+		this.nw = new NearbyWords(d);
+		dictionary = d;		// for isWord checking
 	}
 	
 	//This constructor will be used by the grader code
@@ -42,7 +45,34 @@ public class WPTree implements WordPath {
 	public List<String> findPath(String word1, String word2) 
 	{
 	    // TODO: Implement this method.
-	    return new LinkedList<String>();
+		List<String> result = new LinkedList<String>();
+		// check if target word2 is correct word
+		if(dictionary.isWord(word2) == false) {
+			return result;	// immediately return empty list as result path
+		}
+		// Set the root to be a WPTreeNode containing word1
+		root = new WPTreeNode(word1, null);
+		// Add the initial word to visited
+		HashSet<String> visited = new HashSet<String>();
+		visited.add(word1);
+		// Add root to the queue 
+		LinkedList<WPTreeNode> queue = new LinkedList<WPTreeNode>();
+		queue.add(root);
+		// while the queue has elements and we have not yet found word2
+		while(!queue.isEmpty()) {
+			// remove the node from the start of the queue and assign to curr
+			WPTreeNode curr = queue.remove();
+			// get a list of real word neighbors (one mutation from curr's word)
+			List<String> neighbors = nw.distanceOne(curr.getWord(), true);
+			// for each n in the list of neighbors
+			for(String neighbor: neighbors) {
+				// if n is not visited
+			}
+		}
+		
+		
+		
+	    return result;
 	}
 	
 	// Method to print a list of WPTreeNodes (useful for debugging)

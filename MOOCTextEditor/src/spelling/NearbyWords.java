@@ -222,7 +222,7 @@ public class NearbyWords implements SpellingSuggest {
 		System.out.println(l + "\n");
 
 		//word = "tailo";
-		word = "buil";
+		word = "build";
 		//word = "kangaro";
 		List<String> suggest = w.suggestions(word, 10);
 		System.out.println("Spelling Suggestions for \"" + word + "\" are:");
